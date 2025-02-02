@@ -272,6 +272,11 @@
   "sidebar": {
     "items": {
       "dashboard": "面板",
+      "productManagement": "产品管理",
+      "revenueStatistics": "收入统计",
+      "orderManagement": "订单管理",
+      "discountManagement": "折扣管理",
+      "storeInformation": "商店信息",
       "sample": "样例",
       "theme": "主题",
       "colors": "颜色",
