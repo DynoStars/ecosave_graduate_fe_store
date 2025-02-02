@@ -1,0 +1,326 @@
+{
+    "login": {
+      "title": "Đăng nhập",
+      "description": "Đăng nhập vào tài khoản của bạn",
+      "form": {
+        "username": "Tên người dùng",
+        "password": "Mật khẩu",
+        "submit": "Đăng nhập"
+      },
+      "forgot_password": "Quên mật khẩu?",
+      "signup": {
+        "title": "Đăng ký",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\ntempor incididunt ut labore et dolore magna aliqua."
+      },
+      "message": {
+        "auth_failed": "Tên người dùng hoặc mật khẩu không hợp lệ"
+      }
+    },
+    "pagination": {
+      "summary": "Hiển thị từ {{from}} đến {{to}} trong tổng số {{total}} kết quả",
+      "rows_per_page": "Số hàng mỗi trang"
+    },
+    "signup": {
+      "title": "Đăng ký",
+      "description": "Tạo tài khoản của bạn",
+      "register_now": "Đăng ký ngay!",
+      "form": {
+        "username": "Tên người dùng",
+        "email": "Email",
+        "password": "Mật khẩu",
+        "confirm_password": "Xác nhận mật khẩu",
+        "submit": "Tạo tài khoản"
+      }
+    },
+    "action": {
+      "info": "Thông tin",
+      "edit": "Chỉnh sửa",
+      "delete": "Xóa",
+      "submit": "Gửi",
+      "submitting": "Đang gửi...",
+      "reset": "Đặt lại"
+    },
+    "theme": {
+      "light": "Sáng",
+      "dark": "Tối",
+      "auto": "Tự động"
+    },
+    "dashboard": {
+      "featured": {
+        "user": "Người dùng",
+        "income": "Thu nhập",
+        "conversion_rate": "Tỉ lệ chuyển đổi",
+        "sessions": "Phiên làm việc",
+        "action": {
+          "action1": "Hành động",
+          "action2": "Hành động khác",
+          "action3": "Một hành động khác"
+        }
+      },
+      "traffic": {
+        "title": "Lưu lượng",
+        "duration": "Tháng 1 - Tháng 7, 2021",
+        "option": {
+          "day": "Ngày",
+          "month": "Tháng",
+          "year": "Năm"
+        },
+        "chart": {
+          "xlabel1": "Tháng 1",
+          "xlabel2": "Tháng 2",
+          "xlabel3": "Tháng 3",
+          "xlabel4": "Tháng 4",
+          "xlabel5": "Tháng 5",
+          "xlabel6": "Tháng 6",
+          "xlabel7": "Tháng 7"
+        },
+        "users": "Người dùng",
+        "views": "Lượt xem",
+        "category1": "Lượt truy cập",
+        "category2": "Duy nhất",
+        "category3": "Lượt xem trang",
+        "category4": "Người dùng mới",
+        "category5": "Tỉ lệ thoát"
+      },
+      "social": {
+        "facebook": {
+          "label1": "Bạn bè",
+          "label2": "Bảng tin"
+        },
+        "twitter": {
+          "label1": "Người theo dõi",
+          "label2": "Bài đăng"
+        },
+        "instagram": {
+          "label1": "Liên hệ",
+          "label2": "Bảng tin"
+        }
+      },
+      "sales": {
+        "title": "Lưu lượng & Bán hàng",
+        "stats": {
+          "stat1": "Khách hàng mới",
+          "stat2": "Khách hàng quay lại",
+          "stat3": "Lượt xem trang",
+          "stat4": "Tìm kiếm tự nhiên"
+        },
+        "monday": "Thứ Hai",
+        "tuesday": "Thứ Ba",
+        "wednesday": "Thứ Tư",
+        "thursday": "Thứ Năm",
+        "friday": "Thứ Sáu",
+        "saturday": "Thứ Bảy",
+        "sunday": "Chủ Nhật",
+        "male": "Nam",
+        "female": "Nữ",
+        "organic": "Tìm kiếm tự nhiên",
+        "facebook": "Facebook",
+        "twitter": "Twitter",
+        "linkedin": "LinkedIn"
+      },
+      "listing": {
+        "headers": {
+          "header1": "Người dùng",
+          "header2": "Sử dụng",
+          "header3": "Phương thức thanh toán",
+          "header4": "Hoạt động"
+        },
+        "user_status": {
+          "new": "Mới",
+          "recurring": "Quay lại"
+        },
+        "registered": "Đã đăng ký",
+        "last_login": "Lần đăng nhập cuối",
+        "usage_duration": "11 Tháng 6, 2020 - 10 Tháng 7, 2020",
+        "registered_at": "1 Tháng 1, 2020",
+        "items": {
+          "item1": {
+            "name": "Yiorgos Avraamu",
+            "login_at": "10 giây trước"
+          },
+          "item2": {
+            "name": "Avram Tarasios",
+            "login_at": "5 phút trước"
+          },
+          "item3": {
+            "name": "Quintin Ed",
+            "login_at": "1 giờ trước"
+          },
+          "item4": {
+            "name": "Enéas Kwadwo",
+            "login_at": "Tháng trước"
+          },
+          "item5": {
+            "name": "Agapetus Tadeáš",
+            "login_at": "Tuần trước"
+          },
+          "item6": {
+            "name": "Friderik Dávid",
+            "login_at": "Hôm qua"
+          }
+        }
+      }
+    },
+    "pokemons": {
+      "title": "Pokémon",
+      "add_new": "Thêm mới",
+      "attribute": {
+        "name": "Tên",
+        "type": "Loại",
+        "egg_group": "Nhóm trứng",
+        "hp": "HP",
+        "attack": "Tấn công",
+        "defense": "Phòng thủ",
+        "sp_attack": "Tấn công đặc biệt",
+        "sp_defense": "Phòng thủ đặc biệt",
+        "speed": "Tốc độ",
+        "total": "Tổng"
+      }
+    },
+    "featured_nav": {
+      "dashboard": "Trang tổng quan",
+      "users": "Người dùng",
+      "settings": "Cài đặt"
+    },
+    "notification": {
+      "message": "Bạn có {{total}} thông báo",
+      "items": {
+        "new_user": "Người dùng mới đăng ký",
+        "deleted_user": "Người dùng bị xóa",
+        "sales_report": "Báo cáo bán hàng đã sẵn sàng",
+        "new_client": "Khách hàng mới",
+        "server_overloaded": "Máy chủ quá tải"
+      },
+      "server": {
+        "title": "Máy chủ",
+        "processes": "Quá trình",
+        "cores": "Số lõi",
+        "items": {
+          "cpu": "Sử dụng CPU",
+          "memory": "Sử dụng bộ nhớ",
+          "ssd1": "Sử dụng SSD 1"
+        }
+      }
+    },
+    "task": {
+      "message": "Bạn có {{total}} nhiệm vụ chưa hoàn thành",
+      "items": {
+        "task1": "Cập nhật Next.JS",
+        "task2": "Huấn luyện Pokémon",
+        "task3": "Hoàn thành Pokedex",
+        "task4": "Bắt tất cả Pokémon shiny",
+        "task5": "Chiến thắng tất cả các gym"
+      },
+      "view_all": "Xem tất cả nhiệm vụ"
+    },
+    "messages": {
+      "message": "Bạn có {{total}} tin nhắn",
+      "items": {
+        "item1": {
+          "user": "John Doe",
+          "time": "Vừa xong",
+          "title": "Nuôi Pikachu",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt"
+        },
+        "item2": {
+          "user": "John Doe",
+          "time": "5 phút trước",
+          "title": "Trang phục Eevee",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt"
+        },
+        "item3": {
+          "user": "John Doe",
+          "time": "1:52 PM",
+          "title": "Đào tạo nhóm",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt"
+        },
+        "item4": {
+          "user": "John Doe",
+          "time": "4:03 PM",
+          "title": "Đi Safari Zone",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt"
+        }
+      }
+    },
+    "profile": {
+      "account": {
+        "title": "Tài khoản",
+        "items": {
+          "updates": "Cập nhật",
+          "messages": "Tin nhắn",
+          "tasks": "Nhiệm vụ",
+          "comments": "Bình luận"
+        }
+      },
+      "settings": {
+        "title": "Cài đặt",
+        "items": {
+          "profile": "Hồ sơ",
+          "settings": "Cài đặt",
+          "payments": "Thanh toán",
+          "projects": "Dự án"
+        }
+      },
+      "lock_account": "Khóa tài khoản",
+      "logout": "Đăng xuất"
+    },
+    "breadcrumb": {
+      "home": "Trang chủ",
+      "library": "Thư viện",
+      "data": "Dữ liệu"
+    },
+    "sidebar": {
+      "items": {
+        "dashboard": "Trang tổng quan",
+        "productManagement": "Quản lý sản phẩm",
+        "revenueStatistics": "Thống kê doanh thu",
+        "orderManagement": "Quản lí đơn hàng",
+        "discountManagement": "Quản lí giảm giá",
+        "storeInformation": "Thông tin cửa hàng",
+        "theme": "Giao diện",
+        "colors": "Màu sắc",
+        "typography": "Kiểu chữ",
+        "components": "Thành phần",
+        "accordion": "Accordion",
+        "breadcrumb": "Breadcrumb",
+        "cards": "Thẻ",
+        "carousel": "Carousel",
+        "collapse": "Thu gọn",
+        "list_group": "Nhóm danh sách",
+        "navs": "Menu",
+        "pagination": "Phân trang",
+        "popovers": "Popovers",
+        "progress": "Tiến trình",
+        "scrollspy": "Scrollspy",
+        "spinners": "Spinners",
+        "tables": "Bảng",
+        "tabs": "Thẻ",
+        "tooltips": "Tooltips",
+        "buttons": "Nút",
+        "buttons_group": "Nhóm nút",
+        "dropdowns": "Danh sách thả xuống",
+        "charts": "Biểu đồ",
+        "form_control": "Điều khiển biểu mẫu",
+        "select": "Chọn",
+        "checks_and_radios": "Checkboxes và Radios",
+        "range": "Phạm vi",
+        "input_group": "Nhóm nhập liệu",
+        "floating_labels": "Nhãn nổi",
+        "layout": "Bố cục",
+        "validation": "Xác nhận",
+        "core_ui_icons": "Biểu tượng CoreUI",
+        "core_ui_icons_brand": "Biểu tượng CoreUI - Thương hiệu",
+        "core_ui_icons_flag": "Biểu tượng CoreUI - Cờ",
+        "alerts": "Cảnh báo",
+        "badge": "Huy hiệu",
+        "modals": "Modals",
+        "toasts": "Toasts",
+        "widgets": "Widgets",
+        "login": "Đăng nhập",
+        "register": "Đăng ký",
+        "forgot_password": "Quên mật khẩu",
+        "error404": "404 Lỗi",
+        "error500": "500 Lỗi"
+      }
+    }
+  }

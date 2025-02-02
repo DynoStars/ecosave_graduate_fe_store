@@ -25,6 +25,9 @@ export default function HeaderLocale({ currentLocale }: { currentLocale: string 
         <FontAwesomeIcon icon={faLanguage} size="lg" />
       </DropdownToggle>
       <DropdownMenu className="pt-0" align="end">
+        <DropdownItem active={locale === 'vi'} onClick={() => changeLocale('vi')}>
+          Tiếng việt
+        </DropdownItem>
         <DropdownItem active={locale === 'en'} onClick={() => changeLocale('en')}>
           English
         </DropdownItem>

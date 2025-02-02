@@ -26,7 +26,7 @@ export default function SidebarNavItem(props: Props) {
   return (
     <NavItem>
       <Link href={href} passHref legacyBehavior>
-        <NavLink className="px-3 py-2 d-flex align-items-center" onClick={() => setIsShowSidebar(false)}>
+        <NavLink className="px-3 py-3 d-flex align-items-center " onClick={() => setIsShowSidebar(false)}>
           {icon ? <FontAwesomeIcon className="nav-icon ms-n3" icon={icon} />
             : <span className="nav-icon ms-n3" />}
           {children}
