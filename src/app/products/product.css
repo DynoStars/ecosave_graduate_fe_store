@@ -1,0 +1,257 @@
+.product-container {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    padding: 2rem;
+  }
+  
+  .nav-tabs .nav-link {
+    color: #6c757d;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    background: transparent;
+  }
+  
+  .nav-tabs .nav-link.active {
+    color: #0d6efd;
+    border-bottom: 2px solid #0d6efd;
+  }
+  
+  .search-container {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+  
+  .search-container input {
+    border: none;
+    padding: 0.75rem;
+  }
+  
+  .add-product-btn {
+    background-color: #00A76F;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  
+  .table {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+  
+  .table thead th {
+    background-color: #F4F6F8;
+    color: #637381;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 1rem;
+    border-bottom: none;
+  }
+  
+  .product-image-container {
+    width: 48px;
+    height: 48px;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+  
+  .product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .product-name {
+    font-weight: 500;
+    color: #212B36;
+  }
+  
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: #E9FCD4;
+    color: #229A16;
+    font-size: 0.875rem;
+  }
+  
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    background: #229A16;
+    border-radius: 50%;
+    margin-right: 6px;
+  }
+  
+  .status-label {
+    color: #637381;
+    font-size: 0.875rem;
+    margin-top: 4px;
+  }
+  
+  .product-price {
+    font-weight: 600;
+    color: #212B36;
+  }
+  
+  .expiration-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: #D1E9FC;
+    color: #0C53B7;
+    font-size: 0.875rem;
+  }
+  
+  .expiration-date {
+    color: #637381;
+    font-size: 0.875rem;
+    margin-top: 4px;
+  }
+  
+  .action-btn {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+  }
+  
+  .action-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    min-width: 160px;
+    z-index: 1000;
+  }
+  
+  .action-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    color: #212B36;
+    text-decoration: none;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+  }
+  
+  .action-item:hover {
+    background: #F4F6F8;
+  }
+  
+  .action-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  .pagination-container {
+    padding: 1rem;
+    background: white;
+    border-radius: 0 0 8px 8px;
+    margin-top: -1px;
+  }
+  
+  .pagination-info {
+    color: #637381;
+    margin: 0 1rem;
+  }
+  
+  .items-per-page select {
+    margin-left: 0.5rem;
+    border-color: #DFE3E8;
+  }
+  
+  /* add-products */
+  .product-form-container {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    padding: 2rem;
+  }
+  
+  .breadcrumb {
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  
+  .form-label {
+    font-weight: 500;
+    color: #344767;
+    margin-bottom: 0.5rem;
+  }
+  
+  .form-control, .form-select {
+    border-color: #dee2e6;
+    padding: 0.75rem;
+    color: #495057;
+  }
+  
+  .form-control:focus, .form-select:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+  
+  .upload-container {
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
+    border: 2px dashed #dee2e6 !important;
+  }
+  
+  .upload-icon {
+    font-size: 2rem;
+    color: #6c757d;
+  }
+  
+  .progress {
+    height: 0.5rem;
+    margin: 1rem 0;
+  }
+  
+  .btn-primary {
+    background-color: #00A76F;
+    border-color: #00A76F;
+  }
+  
+  .btn-primary:hover {
+    background-color: #008c5e;
+    border-color: #008c5e;
+  }
+  
+  .btn-light {
+    background-color: #f8f9fa;
+    border-color: #dee2e6;
+  }
+  
+  .btn-light:hover {
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+  }
+  
+  .text-danger {
+    color: #dc3545;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .product-form-container {
+      padding: 1rem;
+    }
+  }

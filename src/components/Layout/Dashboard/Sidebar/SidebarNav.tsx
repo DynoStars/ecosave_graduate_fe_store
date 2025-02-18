@@ -29,7 +29,7 @@ export default async function SidebarNav() {
         {dict.sidebar.items.dashboard}
         <small className="ms-auto"><Badge bg="info" className="ms-auto">NEW</Badge></small>
       </SidebarNavItem>
-      <SidebarNavItem icon={faBox} href="/#">
+      <SidebarNavItem icon={faBox} href="/products">
         {dict.sidebar.items.productManagement}
       </SidebarNavItem>
       <SidebarNavItem icon={faChartPie} href="/#">

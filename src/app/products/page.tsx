@@ -1,9 +1,9 @@
 import React from 'react'
-import products from './products.tsx';
+import ProductsPage from './products'
 export default function page() {
   return (
     <div>
-        <h1>hello</h1>
+        <ProductsPage />
     </div>
   )
 }
