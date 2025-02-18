@@ -272,6 +272,11 @@
   "sidebar": {
     "items": {
       "dashboard": "Dashboard",
+      "productManagement": "Product Management",
+      "revenueStatistics": "Revenue Statistics",
+      "orderManagement": "Order Management",
+      "discountManagement": "Discount Management",
+      "storeInformation": "Store Information",
       "sample": "Sample",
       "theme": "Theme",
       "colors": "Colors",
