@@ -6,6 +6,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "../products/product.css";
 import Link from "next/link";
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+
+interface Image {
+  id: number;
+  url: string;
+  order: number;
+}
 
 interface Product {
   id: number;
@@ -13,14 +21,15 @@ interface Product {
   description: string;
   original_price: number;
   discount_percent: number;
-  discounted_price: number;
+  discount_price: number;
   product_type: string;
   expiration_date: string;
   stock_quantity: number;
   store_id: number;
   category_id: number;
   category: { id: number; name: string };
-  store: { id: number; name: string };
+  store: { id: number; store_name: string };
+  images: Image[];
 }
 
 const ProductsPage: React.FC = () => {
@@ -32,8 +41,11 @@ const ProductsPage: React.FC = () => {
   const [error, setError] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeProductId, setActiveProductId] = useState<number | null>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [productToDelete, setProductToDelete] = useState<number | null>(null);
+  const [deleteType, setDeleteType] = useState<'soft' | 'force'>('soft');
 
-  const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzM5NzExOTY2LCJleHAiOjE3Mzk3MTU1NjYsIm5iZiI6MTczOTcxMTk2NiwianRpIjoiUVdzYkphN25uS0hGekc2biIsInN1YiI6IjE5IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.kYUc0mQaiS7YUn_FMtKmr7KIzLrw1YpwdHLn0P-VCOo";
+  const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzQwMTI0NDMzLCJleHAiOjE3NDAxMjgwMzMsIm5iZiI6MTc0MDEyNDQzMywianRpIjoiME5JSWtaNWNrV3BjNFExWCIsInN1YiI6IjE5IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.rkQzr1TWZB34ITZm-t7o8AH0Y1HQtl9cD-vIJ7wzxdY";
   const api = axios.create({
     baseURL: "http://127.0.0.1:8000/api",
     headers: { Authorization: `Bearer ${token}` },
@@ -81,9 +93,23 @@ const ProductsPage: React.FC = () => {
     }
   };
 
-  const handleDelete = async (productId: number) => {
+  const openDeleteModal = (productId: number, type: 'soft' | 'force') => {
+    setProductToDelete(productId);
+    setDeleteType(type);
+    setShowDeleteModal(true);
+    setIsMenuOpen(false);
+  };
+
+  const handleDelete = async () => {
+    if (!productToDelete) return;
+
     try {
-      await api.delete(`/stores/products/${productId}`);
+      if (deleteType === 'soft') {
+        await api.delete(`/stores/products/${productToDelete}`);
+      } else {
+        await api.delete(`/stores/products/${productToDelete}/force-delete`);
+      }
+      setShowDeleteModal(false);
       fetchProducts();
     } catch (error) {
       console.error("Lỗi khi xóa sản phẩm:", error);
@@ -96,15 +122,6 @@ const ProductsPage: React.FC = () => {
       fetchProducts();
     } catch (error) {
       console.error("Lỗi khi khôi phục sản phẩm:", error);
-    }
-  };
-
-  const handleForceDelete = async (productId: number) => {
-    try {
-      await api.delete(`/stores/products/${productId}/force-delete`);
-      fetchProducts();
-    } catch (error) {
-      console.error("Lỗi khi xóa vĩnh viễn sản phẩm:", error);
     }
   };
 
@@ -188,7 +205,13 @@ const ProductsPage: React.FC = () => {
                   <td>
                     <div className="d-flex align-items-center">
                       <div className="product-image-container me-3">
-                        <img src="https://nutifood.com.vn/files/products/Bao-bi-moi/Nutimilk/nutimilk-stts-pack-3hop.png" alt={product.name} className="product-image" />
+                        <img 
+                          src={product.images && product.images.length > 0 
+                            ? product.images[0].url 
+                            : "https://media.istockphoto.com/id/1208623847/vi/vec-to/h%C3%ACnh-minh-h%E1%BB%8Da-bi%E1%BB%83u-t%C6%B0%E1%BB%A3ng-%C4%91%C6%B0%E1%BB%9Dng-vector-%E1%BA%A3nh.jpg?s=612x612&w=0&k=20&c=U6Nc6FQnrGcT11s6ZKslQyPXhtWO1EUpEb4xbs2MyL4="} 
+                          alt={product.name} 
+                          className="product-image" 
+                        />
                       </div>
                       <div>
                         <div className="product-name">{product.name}</div>
@@ -204,6 +227,9 @@ const ProductsPage: React.FC = () => {
                   </td>
                   <td>
                     <div className="product-price">{product.original_price.toLocaleString()} vnd</div>
+                    {product.discount_price && (
+                      <div className="discount-price">{product.discount_price.toLocaleString()} vnd</div>
+                    )}
                   </td>
                   <td>
                     <div className="expiration-badge paid">
@@ -234,7 +260,7 @@ const ProductsPage: React.FC = () => {
                               <span className="action-icon edit"></span>
                               Chỉnh sửa
                             </Link>
-                            <button className="action-item" onClick={() => handleDelete(product.id)}>
+                            <button className="action-item" onClick={() => openDeleteModal(product.id, 'soft')}>
                               <span className="action-icon delete"></span>
                               Xóa
                             </button>
@@ -249,7 +275,7 @@ const ProductsPage: React.FC = () => {
                               <span className="action-icon restore"></span>
                               Khôi phục
                             </button>
-                            <button className="action-item" onClick={() => handleForceDelete(product.id)}>
+                            <button className="action-item" onClick={() => openDeleteModal(product.id, 'force')}>
                               <span className="action-icon delete"></span>
                               Xóa vĩnh viễn
                             </button>
@@ -285,6 +311,26 @@ const ProductsPage: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Delete Confirmation Modal */}
+      <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Xác nhận xóa</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {deleteType === 'soft' 
+            ? 'Bạn có chắc chắn muốn xóa sản phẩm này không?' 
+            : 'Bạn có chắc chắn muốn xóa vĩnh viễn sản phẩm này không? Hành động này không thể hoàn tác!'}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
+            Hủy
+          </Button>
+          <Button variant="danger" onClick={handleDelete}>
+            {deleteType === 'soft' ? 'Xóa' : 'Xóa vĩnh viễn'}
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

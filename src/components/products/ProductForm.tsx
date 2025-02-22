@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
+import Image from 'next/image';
 
 interface Category {
   id: number;
@@ -16,6 +17,12 @@ interface ValidationErrors {
   [key: string]: string;
 }
 
+interface ImageFile {
+  file: File;
+  preview: string;
+  order: number;
+}
+
 const ProductForm: React.FC<ProductFormProps> = ({ onSubmit, initialData, onCancel }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -26,6 +33,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ onSubmit, initialData, onCanc
   const [isLoadingCategories, setIsLoadingCategories] = useState(true);
   const [categoryError, setCategoryError] = useState<string>("");
   const [submitError, setSubmitError] = useState<string>("");
+  const [selectedImages, setSelectedImages] = useState<ImageFile[]>([]);
   
   const [formData, setFormData] = useState(initialData || {
     name: "",
@@ -36,29 +44,46 @@ const ProductForm: React.FC<ProductFormProps> = ({ onSubmit, initialData, onCanc
     stock_quantity: "",
     category_id: "",
     product_type: "",
-    discounted_price: "0"
+    discounted_price: "0",
+    images: []
   });
 
-  const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzM5NzAxNTc3LCJleHAiOjE3Mzk3MDUxNzcsIm5iZiI6MTczOTcwMTU3NywianRpIjoieHdmc3Z4cU1QRHhSU2pzUCIsInN1YiI6IjE5IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.vCs6e0HQFn0zhOv07DQCRVry-FId3Rc3oZhAO5Bcoeo";
+  const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzQwMTI0NDMzLCJleHAiOjE3NDAxMjgwMzMsIm5iZiI6MTc0MDEyNDQzMywianRpIjoiME5JSWtaNWNrV3BjNFExWCIsInN1YiI6IjE5IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.rkQzr1TWZB34ITZm-t7o8AH0Y1HQtl9cD-vIJ7wzxdY";
 
-  // Simulating predefined categories that match the backend IDs
-  useEffect(() => {
-    // Instead of fetching, we're using the predefined categories as mentioned
-    const predefinedCategories: Category[] = [
-      { id: 1, name: "Thực phẩm tươi sống" },
-      { id: 2, name: "Đồ uống" },
-      { id: 3, name: "Bánh kẹo" },
-      { id: 4, name: "Sữa và các sản phẩm từ sữa" },
-      { id: 5, name: "Đồ gia dụng" },
-      { id: 6, name: "Chăm sóc cá nhân" },
-      { id: 7, name: "Đồ dùng nhà bếp" }
-    ];
+  const api = axios.create({
+    baseURL: "http://127.0.0.1:8000/api",
+    headers: { 
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  });
 
-    // Simulating API loading
-    setTimeout(() => {
-      setCategories(predefinedCategories);
+  const fetchCategories = async () => {
+    try {
+      setIsLoadingCategories(true);
+      setCategoryError("");
+      
+      const response = await api.get('/categories');
+      
+      if (response.data && Array.isArray(response.data)) {
+        setCategories(response.data);
+      } else {
+        throw new Error('Invalid data format');
+      }
+    } catch (error: any) {
+      console.error('Error fetching categories:', error);
+      setCategoryError(
+        error.response?.data?.message || 
+        'Không thể tải danh mục sản phẩm. Vui lòng thử lại sau.'
+      );
+    } finally {
       setIsLoadingCategories(false);
-    }, 500);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
   }, []);
 
   const validateForm = () => {
@@ -98,6 +123,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ onSubmit, initialData, onCanc
       newErrors.product_type = "Loại sản phẩm không được vượt quá 100 ký tự";
     }
 
+    if (selectedImages.length === 0) {
+      newErrors.images = "Vui lòng chọn ít nhất một hình ảnh";
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -107,7 +136,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ onSubmit, initialData, onCanc
     setFormData(prev => {
       const newData = { ...prev, [name]: value };
       
-      // Calculate discounted price when original price or discount percent changes
       if (name === 'original_price' || name === 'discount_percent') {
         const originalPrice = parseFloat(newData.original_price) || 0;
         const discountPercent = parseFloat(newData.discount_percent) || 0;
@@ -119,20 +147,57 @@ const ProductForm: React.FC<ProductFormProps> = ({ onSubmit, initialData, onCanc
     });
   };
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setIsUploading(true);
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += 5;
-        setUploadProgress(progress);
-        if (progress >= 100) {
-          clearInterval(interval);
-          setIsUploading(false);
-        }
-      }, 100);
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
+
+    if (selectedImages.length + files.length > 3) {
+      alert('Bạn chỉ có thể tải lên tối đa 3 hình ảnh');
+      return;
     }
+
+    const newImages: ImageFile[] = [];
+    
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      
+      if (file.size > 3 * 1024 * 1024) {
+        alert(`File ${file.name} vượt quá kích thước cho phép (3MB)`);
+        continue;
+      }
+
+      const preview = URL.createObjectURL(file);
+      
+      newImages.push({
+        file,
+        preview,
+        order: selectedImages.length + i
+      });
+    }
+
+    setSelectedImages(prev => [...prev, ...newImages]);
+  };
+
+  const removeImage = (index: number) => {
+    setSelectedImages(prev => {
+      const newImages = prev.filter((_, i) => i !== index);
+      return newImages.map((img, i) => ({
+        ...img,
+        order: i
+      }));
+    });
+  };
+
+  const reorderImages = (dragIndex: number, dropIndex: number) => {
+    setSelectedImages(prev => {
+      const newImages = [...prev];
+      const [draggedImage] = newImages.splice(dragIndex, 1);
+      newImages.splice(dropIndex, 0, draggedImage);
+      return newImages.map((img, i) => ({
+        ...img,
+        order: i
+      }));
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -145,7 +210,30 @@ const ProductForm: React.FC<ProductFormProps> = ({ onSubmit, initialData, onCanc
 
     setIsSubmitting(true);
     try {
-      await onSubmit(formData);
+      const uploadedImages = await Promise.all(
+        selectedImages.map(async (image) => {
+          const formData = new FormData();
+          formData.append('image', image.file);
+          
+          const response = await api.post('/upload-image', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          });
+          
+          return {
+            image_url: response.data.url,
+            image_order: image.order
+          };
+        })
+      );
+
+      const productData = {
+        ...formData,
+        images: uploadedImages
+      };
+
+      await onSubmit(productData);
     } catch (error: any) {
       console.error("Error submitting form:", error);
       setSubmitError(
@@ -156,6 +244,62 @@ const ProductForm: React.FC<ProductFormProps> = ({ onSubmit, initialData, onCanc
       setIsSubmitting(false);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      selectedImages.forEach(image => {
+        URL.revokeObjectURL(image.preview);
+      });
+    };
+  }, []);
+
+  const renderCategorySelect = () => (
+    <div className="mb-3">
+      <label className="form-label">
+        Danh mục sản phẩm <span className="text-danger">*</span>
+      </label>
+      <select 
+        className={`form-select ${errors.category_id ? 'is-invalid' : ''}`}
+        name="category_id"
+        value={formData.category_id}
+        onChange={handleChange}
+        disabled={isLoadingCategories}
+      >
+        <option value="">Chọn danh mục sản phẩm</option>
+        {categories.map((category) => (
+          <option key={category.id} value={category.id}>
+            {category.name}
+          </option>
+        ))}
+      </select>
+      {errors.category_id && (
+        <div className="invalid-feedback">{errors.category_id}</div>
+      )}
+      {categoryError && (
+        <div className="text-danger mt-1">
+          {categoryError}
+          <button 
+            type="button" 
+            className="btn btn-link btn-sm p-0 ms-2"
+            onClick={() => {
+              setIsLoadingCategories(true);
+              fetchCategories();
+            }}
+          >
+            Thử lại
+          </button>
+        </div>
+      )}
+      {isLoadingCategories && (
+        <div className="text-muted mt-1">
+          <div className="spinner-border spinner-border-sm me-2" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          Đang tải danh mục...
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <div className="product-form-container">
@@ -206,28 +350,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ onSubmit, initialData, onCanc
               />
             </div>
 
-            <div className="mb-3">
-              <label className="form-label">
-                Danh mục sản phẩm <span className="text-danger">*</span>
-              </label>
-              <select 
-                className={`form-select ${errors.category_id ? 'is-invalid' : ''}`}
-                name="category_id"
-                value={formData.category_id}
-                onChange={handleChange}
-                disabled={isLoadingCategories}
-              >
-                <option value="">Chọn danh mục sản phẩm</option>
-                {categories.map((category) => (
-                  <option key={category.id} value={category.id}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-              {errors.category_id && <div className="invalid-feedback">{errors.category_id}</div>}
-              {categoryError && <div className="text-danger mt-1">{categoryError}</div>}
-              {isLoadingCategories && <div className="text-muted mt-1">Đang tải danh mục...</div>}
-            </div>
+            {renderCategorySelect()}
 
             <div className="mb-3">
               <label className="form-label">
@@ -309,41 +432,56 @@ const ProductForm: React.FC<ProductFormProps> = ({ onSubmit, initialData, onCanc
               <label className="form-label">
                 Tải ảnh sản phẩm lên <span className="text-danger">*</span>
               </label>
-              <div className="upload-container border rounded-3 p-4 text-center">
+              <div className="upload-container border rounded-3 p-4">
                 <input
                   type="file"
                   ref={fileInputRef}
                   className="d-none"
                   onChange={handleFileUpload}
                   accept="image/*"
+                  multiple
                 />
-                {isUploading ? (
-                  <div>
-                    <div className="text-muted mb-2">Đang tải... {uploadProgress}%</div>
-                    <div className="progress">
-                      <div
-                        className="progress-bar bg-success"
-                        style={{ width: `${uploadProgress}%` }}
-                      ></div>
-                    </div>
+                
+                <div className="text-center mb-3">
+                  <button
+                    type="button"
+                    className="btn btn-outline-primary"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={selectedImages.length >= 3}
+                  >
+                    Chọn hình ảnh
+                  </button>
+                  <div className="text-muted mt-2">
+                    Tối đa 3 hình ảnh, mỗi hình không quá 3MB
                   </div>
-                ) : (
-                  <div>
-                    <div className="upload-icon mb-3">
-                      <i className="bi bi-cloud-upload fs-1 text-primary"></i>
-                    </div>
-                    <button
-                      type="button"
-                      className="btn btn-outline-primary"
-                      onClick={() => fileInputRef.current?.click()}
-                    >
-                      Duyệt tập tin
-                    </button>
-                    <div className="text-muted mt-2">
-                      Bạn có thể tải lên tối đa 3mp
-                    </div>
-                  </div>
+                </div>
+
+                {errors.images && (
+                  <div className="alert alert-danger">{errors.images}</div>
                 )}
+
+                <div className="selected-images">
+                  {selectedImages.map((image, index) => (
+                    <div key={index} className="selected-image-item mb-3 position-relative">
+                      <img
+                        src={image.preview}
+                        alt={`Preview ${index + 1}`}
+                        className="img-thumbnail"
+                        style={{ maxHeight: '150px' }}
+                      />
+                      <div className="image-actions mt-2">
+                        <button
+                          type="button"
+                          className="btn btn-sm btn-danger"
+                          onClick={() => removeImage(index)}
+                        >
+                          Xóa
+                        </button>
+                        <span className="ms-2">Thứ tự: {index + 1}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
